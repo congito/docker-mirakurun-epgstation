@@ -1,15 +1,19 @@
 version: '3.7'
 services:
     mirakurun:
-        image: chinachu/mirakurun
+        #image: chinachu/mirakurun
+        build:
+            context: "./mirakurun"
+            dockerfile: "Dockerfile"
         cap_add:
             - SYS_ADMIN
             - SYS_NICE
         ports:
             - "40772:40772"
+            #- "9229:9229"
         volumes:
             - ./mirakurun/conf:/app-config
-            #- ./mirakurun/data:/app-data
+            - ./mirakurun/data:/app-data
         environment:
             TZ: "Asia/Tokyo"
         devices:
@@ -42,6 +46,7 @@ services:
                 max-file: "3"
 
     epgstation:
+        #image: l3tnun/epgstation
         build:
             context: "./epgstation"
             dockerfile: "debian.Dockerfile"
@@ -49,7 +54,7 @@ services:
             - ./epgstation/config:/app/config
             #- ./epgstation/data:/app/data
             #- ./epgstation/thumbnail:/app/thumbnail
-            - ./epgstation/logs:/app/logs
+            #- ./epgstation/logs:/app/logs
             - ./recorded:/app/recorded
         environment:
             TZ: "Asia/Tokyo"
